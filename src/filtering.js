@@ -8,14 +8,14 @@ import Papa from "papaparse";
 import Output from "./output";
 import * as csvConverter from './csvConverter';
 import { loadAndVectorizeCSV } from './dataVectorizer';
-import { PineconeClient } from "@pinecone-database/client";
+// import { PineconeClient } from "@pinecone-database/client";
 
 // Pineconeクライアントの初期化
-const pinecone = new PineconeClient();
-await pinecone.init({
-  apiKey: 'aeeaa225-3d2d-4eb3-b189-d1ab55041482', // PineconeのAPIキー
-  environment: 'us-west1-gcp' // 環境に合わせて指定
-});
+// const pinecone = new PineconeClient();
+// await pinecone.init({
+//   apiKey: 'aeeaa225-3d2d-4eb3-b189-d1ab55041482', // PineconeのAPIキー
+//   environment: 'us-west1-gcp' // 環境に合わせて指定
+// });
 
 const Filtering = () => {
   // 前の画面から渡された状態を取得
