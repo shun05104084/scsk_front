@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { Box, Button, VStack, Input, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const Filtering = () => {
   const [userInput, setUserInput] = useState('');
   const [responseOutput, setResponseOutput] = useState(''); // APIからの応答を保存する状態
 
-  // OpenAI APIキーを設定
-  const apiKey = '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';
+  // キー設定
+  const apiKey = process.env.REACT_APP_API_KEY;
+
+
 
   // APIにPOSTリクエストを送信する関数
   const callChatGPT = async (prompt) => {
