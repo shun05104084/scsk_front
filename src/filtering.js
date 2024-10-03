@@ -6,6 +6,9 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Papa from "papaparse";
 import Output from "./output";
+import * as csvConverter from './csvConverter';
+import * as dataVectorizer from './dataVectorizer';
+
 
 const Filtering = () => {
   // 前の画面から渡された状態を取得
@@ -21,7 +24,7 @@ const Filtering = () => {
   useEffect(() => {
     // CSVファイルを読み込む
     const fetchData = async () => {
-      const response = await fetch("/companies.csv"); // public/A.csvを読み込み
+      const response = await fetch("/companies.csv"); // csvを読み込み
       const reader = response.body.getReader();
       const result = await reader.read(); // rawデータを取得
       const decoder = new TextDecoder("utf-8");
@@ -31,8 +34,14 @@ const Filtering = () => {
       Papa.parse(csvData, {
         header: true, // 1行目をヘッダーとして使用
         complete: (results) => {
-          setData(results.data); // CSVデータをステートに格納
-          console.log(results.data);
+          const salary_convertedData = csvConverter.convertSalaryInData(results.data); // 平均年収の変換
+          const convertedData = csvConverter.convertHourInData(salary_convertedData); // 残業時間の変換
+
+          setData(convertedData); // 変換後のデータをステートに格納
+          console.log(convertedData);
+
+          // setData(results.data); // CSVデータをステートに格納
+          // console.log(results.data);
         },
       });
     };
