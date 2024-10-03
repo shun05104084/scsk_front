@@ -5,12 +5,14 @@ import { CheckCircleIcon } from "@chakra-ui/icons";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Output from "./output";
 import Filtering from "./filtering";
+import Outdoor from "./outdoor";
+import Indoor from "./indoor";
 const App = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
   const [step, setStep] = useState(1);
-  const totalSteps = 17;
+  const totalSteps = 21;
 
   const [answers, setAnswers] = useState({
     remoteWork: "",
@@ -29,7 +31,11 @@ const App = () => {
     overtime: "",
     weekend: "",
     longvacation: "",
-    workingplace: ""
+    workingplace: "",
+    English: "",
+    team: "",
+    leadership: "",
+    bodymoving: ""
 
 
   });
@@ -504,6 +510,90 @@ alert("フィルタリング画面に遷移します。");
             </Box>
           )}
 
+          {step === 18 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              英語などの外国語を積極的に使う仕事に興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("English", value)}
+                value={answers.English}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 19 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              チームで働くことが好きですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("team", value)}
+                value={answers.team}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 20 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              リーダーシップを発揮するポジションに興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("leadership", value)}
+                value={answers.leadership}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 21 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              体を動かす事が多い仕事をしたいですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("bodymoving", value)}
+                value={answers.bodymoving}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
           {/* ナビゲーションボタン */}
           <Stack direction="row" spacing={4} justify="space-between">
             {step > 1 && (
@@ -536,7 +626,11 @@ alert("フィルタリング画面に遷移します。");
                   (step === 14 && answers.overtime === "") ||
                   (step === 15 && answers.weekend === "") ||
                   (step === 16 && answers.longvacation === "")||
-                  (step === 17 && answers.workingplace === "")
+                  (step === 17 && answers.workingplace === "")||
+                  (step === 18 && answers.English === "") ||
+                  (step === 19 && answers.team === "") ||
+                  (step === 20 && answers.leadership === "")||
+                  (step === 21 && answers.bodymoving === "")
                 }
               >
                 次へ
@@ -563,7 +657,11 @@ alert("フィルタリング画面に遷移します。");
                   !answers.overtime ||
                   !answers.weekend ||
                   !answers.longvacation ||
-                  !answers.workingplace
+                  !answers.workingplace ||
+                  !answers.English ||
+                  !answers.team ||
+                  !answers.leadership ||
+                  !answers.bodymoving
                 }
                 leftIcon={<CheckCircleIcon />}
               >

@@ -9,7 +9,7 @@ const Output = () => {
   const navigate = useNavigate(); // 戻るボタン用
 
   // location.state から渡されたデータを展開
-  const { remoteWork, industry, salary, newYearHoliday, communication, office, teamwork, PC, known, transfer, income, home, flex, overtime, weekend, longvacation, workingplace } = location.state || {};
+  const { remoteWork, industry, salary, newYearHoliday, communication, office, teamwork, PC, known, transfer, income, home, flex, overtime, weekend, longvacation, workingplace, English, team, leadership, bodymoving } = location.state || {};
 
   // リモートワークのメッセージとスタイル設定
   const remoteWorkMessage = remoteWork === "はい"
@@ -66,12 +66,32 @@ const Output = () => {
  // 土日に関するメッセージ
   const weekendMessage = weekend === "はい"
     ? "完全週休二日制の企業を希望します"
-    : null; // 「いいえ」の場合は何も出力しない
+    : ""; // 「いいえ」の場合は何も出力しない
 
  // 長期休暇制度に関するメッセージ
   const longvacationMessage = longvacation === "はい"
     ? "長期休暇制度のある企業を希望します"
-    : null; // 「いいえ」の場合は何も出力しない
+    : ""; // 「いいえ」の場合は何も出力しない
+
+  // 英語
+  const EnglishMessage = English === "はい"
+    ? { message: "積極的に英語を使いたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "積極的に英語を使いたくない", icon: WarningIcon, color: "red.500" };
+
+  // チーム
+  const teamMessage = team === "はい"
+    ? { message: "チームで働くことは好きである", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "チームで働くことは好きではない", icon: WarningIcon, color: "red.500" };
+
+  // リーダーシップ
+  const leadershipMessage = leadership === "はい"
+    ? { message: "リーダーとして活躍したい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "リーダーとして活躍したくない", icon: WarningIcon, color: "red.500" };
+
+  // 肉体労働(ここで分岐)
+  const bodymovingMessage = bodymoving === "はい"
+    ? { message: "体を動かす仕事をしたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "体を動かす仕事をしたくない", icon: WarningIcon, color: "red.500" };
 
   // ページ遷移後の表示を作成
   return (
@@ -178,12 +198,10 @@ const Output = () => {
             </Flex>
 
             {/* 知名度の高い企業に関する結果表示 */}
-            <Flex alignItems="center" justifyContent="center" color={knownMessage.color}>
-              <Icon as={knownMessage.icon} w={8} h={8} mr={2} />
-              <Text fontSize="lg" fontWeight="bold">
-                {knownMessage.message}
-              </Text>
-            </Flex>
+            <div>
+            {/* knownMessage が空でない場合のみ表示 */}
+              {knownMessage && <span>{knownMessage}</span>}
+            </div>
 
             {/* 転勤に関する結果表示 */}
             <Flex alignItems="center" justifyContent="center" color={transferMessage.color}>
@@ -213,12 +231,10 @@ const Output = () => {
             </Flex>
 
             {/* フレックス制度に関する結果表示 */}
-            <Flex alignItems="center" justifyContent="center" color={flexMessage.color}>
-              <Icon as={flexMessage.icon} w={8} h={8} mr={2} />
-              <Text fontSize="lg" fontWeight="bold">
-                {flexMessage.message}
-              </Text>
-            </Flex>
+            <div>
+            {/* weekendMessage が空でない場合のみ表示 */}
+              {flexMessage && <span>{flexMessage}</span>}
+            </div>
 
             {/* 希望の残業時間の結果表示 */}
             <Box w="full" textAlign="center">
@@ -232,20 +248,16 @@ const Output = () => {
             </Box>
 
             {/* 土日休暇に関する結果表示 */}
-            <Flex alignItems="center" justifyContent="center" color={weekendMessage.color}>
-              <Icon as={weekendMessage.icon} w={8} h={8} mr={2} />
-              <Text fontSize="lg" fontWeight="bold">
-                {weekendMessage.message}
-              </Text>
-            </Flex>
+            <div>
+            {/* weekendMessage が空でない場合のみ表示 */}
+              {weekendMessage && <span>{weekendMessage}</span>}
+            </div>
 
             {/* 長期休暇に関する結果表示 */}
-            <Flex alignItems="center" justifyContent="center" color={longvacationMessage.color}>
-              <Icon as={longvacationMessage.icon} w={8} h={8} mr={2} />
-              <Text fontSize="lg" fontWeight="bold">
-                {longvacationMessage.message}
-              </Text>
-            </Flex>
+            <div>
+            {/* longvacationMessage が空でない場合のみ表示 */}
+              {longvacationMessage && <span>{longvacationMessage}</span>}
+            </div>
 
             {/* 希望の勤務地の結果表示 */}
             <Box w="full" textAlign="center">
@@ -258,6 +270,38 @@ const Output = () => {
                 です。
               </Text>
             </Box>
+
+            {/* 英語に関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={EnglishMessage.color}>
+              <Icon as={EnglishMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {EnglishMessage.message}
+              </Text>
+            </Flex>
+
+            {/* チーム活動に関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={teamMessage.color}>
+              <Icon as={teamMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {teamMessage.message}
+              </Text>
+            </Flex>
+
+            {/* リーダーシップに関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={leadershipMessage.color}>
+              <Icon as={leadershipMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {leadershipMessage.message}
+              </Text>
+            </Flex>
+
+            {/* 肉体労働に関する結果表示(ここで分岐) */}
+            <Flex alignItems="center" justifyContent="center" color={bodymovingMessage.color}>
+              <Icon as={bodymovingMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {bodymovingMessage.message}
+              </Text>
+            </Flex>
 
             {/* 戻るボタン */}
             <Button
