@@ -7,12 +7,17 @@ import { motion, transform } from "framer-motion";
 const Output = () => {
   const location = useLocation(); // 前の画面から渡された状態を取得
   const navigate = useNavigate(); // 戻るボタン用
+  const answers = location.state || {};
+  const handleFilterng = () => {
+    // alert("フィルタリング画面に遷移します。");
+      navigate("/filtering", { state: answers});
+  };
 
   // location.state から渡されたデータを展開
   const { outdoor, indoor, step, remoteWork, industry, salary, newYearHoliday, communication, office, teamwork, PC, known, transfer, income, home, flex, overtime, weekend, longvacation, workingplace, English, team, leadership, bodymoving, bunki1 } = location.state || {};
 
   // リモートワークのメッセージとスタイル設定
-  const remoteWorkMessage = remoteWork === "はい"
+  const remoteWorkMessage = remoteWork === "あり"
     ? { message: "リモートワークを積極的に利用したいです", icon: CheckCircleIcon, color: "green.500" }
     : { message: "リモートワークを積極的に利用したくないです", icon: WarningIcon, color: "red.500" };
 
@@ -104,9 +109,9 @@ let bunki1Message = { message: "該当するメッセージがありません", 
     ? { message: "クリエイティブな分野でアイデアを形にする仕事をしてみたい", icon: CheckCircleIcon, color: "green.500" }
     : { message: "デザインやコンテンツ制作などのクリエイティブな仕事にはあまり興味がない", icon: WarningIcon, color: "red.500" };
   }
-  console.log("outdoor:", outdoor);
-  console.log("indoor:", indoor);
-  console.log("bunki1:", bunki1);
+  //console.log("outdoor:", outdoor);
+  //console.log("indoor:", indoor);
+  //console.log("bunki1:", bunki1);
   // ページ遷移後の表示を作成
   return (
     <Box minH="100vh" display="flex" alignItems="center" justifyContent="center" py={12} px={6} bgGradient="linear(to-r, teal.500, green.500)">
@@ -335,6 +340,18 @@ let bunki1Message = { message: "該当するメッセージがありません", 
               transition="all 0.3s ease"
             >
               戻る
+            </Button>
+            {/* 企業推薦に遷移 */}
+            <Button
+              colorScheme="teal"
+              size="lg"
+              onClick={handleFilterng}
+              mt={6}
+              _hover={{ bg: "teal.400", transform: "scale(1.05)" }}
+              transition="all 0.3s ease"
+            >
+              おすすめ企業
+
             </Button>
           </VStack>
         </Box>
