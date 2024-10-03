@@ -746,10 +746,10 @@ const AppWrapper = () => (
     <Route path="/" element={<App />} />
     <Route path="/output" element={<Output />} />
     <Route path="/filtering" element={<Filtering />} />
-    <Route path="/Outdoor" element={<Outdoor />} />
-    <Route path="/Indoor" element={<Indoor />} />
+
     
   </Routes>
 );
-
+// <Route path="/Outdoor" element={<Outdoor />} />
+// <Route path="/Indoor" element={<Indoor />} />
 export default AppWrapper;
