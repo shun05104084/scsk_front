@@ -143,10 +143,10 @@ alert("フィルタリング画面に遷移します。");
                 value={answers.remoteWork}
               >
                 <Stack direction="row" spacing={5}>
-                  <Radio value="はい" colorScheme="teal">
+                  <Radio value="あり" colorScheme="teal">
                     はい
                   </Radio>
-                  <Radio value="いいえ" colorScheme="teal">
+                  <Radio value="なし" colorScheme="teal">
                     いいえ
                   </Radio>
                 </Stack>
@@ -845,10 +845,10 @@ const AppWrapper = () => (
     <Route path="/" element={<App />} />
     <Route path="/output" element={<Output />} />
     <Route path="/filtering" element={<Filtering />} />
-    <Route path="/Outdoor" element={<Outdoor />} />
-    <Route path="/Indoor" element={<Indoor />} />
+
     
   </Routes>
 );
-
+// <Route path="/Outdoor" element={<Outdoor />} />
+// <Route path="/Indoor" element={<Indoor />} />
 export default AppWrapper;
