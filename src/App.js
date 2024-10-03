@@ -88,6 +88,7 @@ alert("フィルタリング画面に遷移します。");
               >
                 フィルターページ
               </Button>
+              <Filtering answers={setAnswers} />
             </Heading>
             <Progress
               value={(step / totalSteps) * 100}
