@@ -15,7 +15,7 @@ const Output = () => {
 
   // location.state から渡されたデータを展開
   //const { outdoor, indoor } = location.state || {};
-  const { remoteWork, industry, salary, newYearHoliday, communication, office, teamwork, PC, known, transfer, income, home, flex, overtime, weekend, longvacation, workingplace, English, team, leadership, bodymoving, client, powerwork, natural, creative, marketing, administrative } = location.state || {};
+  const { remoteWork, industry, salary, newYearHoliday, communication, office, teamwork, PC, known, transfer, income, home, flex, overtime, weekend, longvacation, workingplace, English, team, leadership, bodymoving, client, powerwork, natural, creative, marketing, administrative, individual, kansyou, nomi, result, career, contribution, sairyou, manual, juunan } = location.state || {};
 
   // リモートワークのメッセージとスタイル設定
   const remoteWorkMessage = remoteWork === "あり"
@@ -129,7 +129,52 @@ const Output = () => {
     ? { message: "パソコンを使った経理や書類作成などの事務作業をすることに興味がある", icon: CheckCircleIcon, color: "green.500" }
     : { message: "事務作業が中心の仕事にはあまり関心がない", icon: WarningIcon, color: "red.500" };
 
-  // ページ遷移後の表示を作成
+  // 個々が自立
+  const individualMessage = individual === "はい"
+    ? { message: "自分のペースで自立して働ける職場環境が好ましい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "チームとして協力し合いながら仕事を進める環境が良いと思う", icon: WarningIcon, color: "red.500" };
+
+  // 干渉されたくない
+  const kansyouMessage = kansyou === "はい"
+    ? { message: "社内での干渉が少なく、仕事に集中できる環境が理想的だと思う", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "適度にコミュニケーションが取れる環境が働きやすいと感じる", icon: WarningIcon, color: "red.500" };
+
+  // 飲み
+  const nomiMessage = nomi === "はい"
+    ? { message: "仕事後の飲み会や社内イベントを楽しみながら、同僚との関係を深めたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "プライベートな時間を大切にしたいので、仕事後の飲み会やイベントにはあまり参加したくない", icon: WarningIcon, color: "red.500" };
+
+  // 結果が評価される
+  const resultMessage = result === "はい"
+    ? { message: "自分の成果や結果が明確に評価される環境で働くことが理想的だと思う", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "評価よりも、仕事のプロセスやチームでの協力が重要だと感じる", icon: WarningIcon, color: "red.500" };
+
+  // キャリアの成長
+  const careerMessage = career === "はい"
+    ? { message: "安定した職場で、時間をかけて自分のキャリアを成長させたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "安定よりも、新しい挑戦や機会が多い環境でキャリアを進めたい", icon: WarningIcon, color: "red.500" };
+
+  // 貢献したい
+  const contributionMessage = contribution === "はい"
+    ? { message: "長期的な貢献が評価される企業で、安定して働き続けたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "会社への貢献よりも、短期的な成果や成果物が評価される環境で働きたい", icon: WarningIcon, color: "red.500" };
+
+  // 裁量
+  const sairyouMessage = sairyou === "はい"
+    ? { message: "自分の裁量で仕事を進められる自由な職場環境が理想的だと思う", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "決まった方針や指示のもとで仕事を進める環境が好ましい", icon: WarningIcon, color: "red.500" };
+
+  // マニュアルに基づく
+  const manualMessage = manual === "はい"
+    ? { message: "指示やマニュアルに従って、計画的に仕事を進める環境が自分に合っていると感じる", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "自分で工夫しながら進める自由な仕事の方が性に合っている", icon: WarningIcon, color: "red.500" };
+
+  // 柔軟に
+  const juunanMessage = juunan === "はい"
+    ? { message: "タスクが柔軟に変わる環境や、臨機応変な対応が求められる仕事を楽しみたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "安定した業務内容で計画的に進められる仕事が好ましい", icon: WarningIcon, color: "red.500" };
+  
+    // ページ遷移後の表示を作成
   return (
     <Box minH="100vh" display="flex" alignItems="center" justifyContent="center" py={12} px={6} bgGradient="linear(to-r, teal.500, green.500)">
       <motion.div
@@ -384,6 +429,78 @@ const Output = () => {
               <Icon as={administrativeMessage.icon} w={8} h={8} mr={2} />
               <Text fontSize="lg" fontWeight="bold">
                 {administrativeMessage.message}
+              </Text>
+            </Flex>
+
+            {/* 個々に関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={individualMessage.color}>
+              <Icon as={individualMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {individualMessage.message}
+              </Text>
+            </Flex>
+
+            {/* 干渉に関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={kansyouMessage.color}>
+              <Icon as={kansyouMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {kansyouMessage.message}
+              </Text>
+            </Flex>
+
+            {/* 飲みに関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={nomiMessage.color}>
+              <Icon as={nomiMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {nomiMessage.message}
+              </Text>
+            </Flex>
+
+            {/* 結果重視に関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={resultMessage.color}>
+              <Icon as={resultMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {resultMessage.message}
+              </Text>
+            </Flex>
+
+            {/* キャリア形成に関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={careerMessage.color}>
+              <Icon as={careerMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {careerMessage.message}
+              </Text>
+            </Flex>
+
+            {/* 貢献に関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={contributionMessage.color}>
+              <Icon as={contributionMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {contributionMessage.message}
+              </Text>
+            </Flex>
+
+            {/* 裁量に関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={sairyouMessage.color}>
+              <Icon as={sairyouMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {sairyouMessage.message}
+              </Text>
+            </Flex>
+
+            {/* マニュアルに関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={manualMessage.color}>
+              <Icon as={manualMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {manualMessage.message}
+              </Text>
+            </Flex>
+
+            {/* 柔軟に関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={juunanMessage.color}>
+              <Icon as={juunanMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {juunanMessage.message}
               </Text>
             </Flex>
 
