@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { Box, Button, VStack, Input, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import dotenv from 'dotenv';
-dotenv.config();
+//import dotenv from 'dotenv';
+//require('dotenv').config();
 
 const Filtering = () => {
   const [userInput, setUserInput] = useState('');
   const [responseOutput, setResponseOutput] = useState(''); // APIからの応答を保存する状態
 
   // キー設定
-  //const apiKey = process.env.REACT_APP_API_KEY;
-  const apiKey = 'APIKEY';
+  const apiKey = process.env.REACT_APP_API_KEY;
+  //console.log('API Key :', apiKey)
+  //const apiKey = 'APIKEY';
 
 
 
