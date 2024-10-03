@@ -9,7 +9,7 @@ const Output = () => {
   const navigate = useNavigate(); // 戻るボタン用
 
   // location.state から渡されたデータを展開
-  const { remoteWork, industry, salary, newYearHoliday, communication, office, teamwork, PC, known, transfer, income, home, flex, overtime, weekend, longvacation, workingplace, English, team, leadership, bodymoving } = location.state || {};
+  const { outdoor, indoor, step, remoteWork, industry, salary, newYearHoliday, communication, office, teamwork, PC, known, transfer, income, home, flex, overtime, weekend, longvacation, workingplace, English, team, leadership, bodymoving, bunki1 } = location.state || {};
 
   // リモートワークのメッセージとスタイル設定
   const remoteWorkMessage = remoteWork === "はい"
@@ -93,6 +93,20 @@ const Output = () => {
     ? { message: "体を動かす仕事をしたい", icon: CheckCircleIcon, color: "green.500" }
     : { message: "体を動かす仕事をしたくない", icon: WarningIcon, color: "red.500" };
 
+let bunki1Message = { message: "該当するメッセージがありません", icon: WarningIcon, color: "gray.500" };  // デフォルト値を設定
+  // アウトドア分岐
+  if(outdoor ===1){
+    bunki1Message = bunki1 === "はい"
+    ? { message: "屋外での作業を積極的にしてみたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "屋外での作業はしたくない", icon: WarningIcon, color: "red.500" };
+  }else if(indoor === 1){
+    bunki1Message = bunki1 === "はい"
+    ? { message: "クリエイティブな分野でアイデアを形にする仕事をしてみたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "デザインやコンテンツ制作などのクリエイティブな仕事にはあまり興味がない", icon: WarningIcon, color: "red.500" };
+  }
+  console.log("outdoor:", outdoor);
+  console.log("indoor:", indoor);
+  console.log("bunki1:", bunki1);
   // ページ遷移後の表示を作成
   return (
     <Box minH="100vh" display="flex" alignItems="center" justifyContent="center" py={12} px={6} bgGradient="linear(to-r, teal.500, green.500)">
@@ -300,6 +314,14 @@ const Output = () => {
               <Icon as={bodymovingMessage.icon} w={8} h={8} mr={2} />
               <Text fontSize="lg" fontWeight="bold">
                 {bodymovingMessage.message}
+              </Text>
+            </Flex>
+
+            {/* 分岐質問1に関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={bunki1Message.color}>
+              <Icon as={bunki1Message.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {bunki1Message.message}
               </Text>
             </Flex>
 

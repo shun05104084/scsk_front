@@ -12,7 +12,11 @@ const App = () => {
   const toast = useToast();
 
   const [step, setStep] = useState(1);
-  const totalSteps = 21;
+  const totalSteps = 22; 
+
+  const [outdoor, setOutdoor] = useState(0);  // outdoor フラグ
+  const [indoor, setIndoor] = useState(0);    // indoor フラグ
+  const bunki_question = 8; //分岐間での質問の数
 
   const [answers, setAnswers] = useState({
     remoteWork: "",
@@ -35,7 +39,10 @@ const App = () => {
     English: "",
     team: "",
     leadership: "",
-    bodymoving: ""
+    bodymoving: "",   //ここまでが分岐前
+    //outdoorworking: "", //アウトドアの分岐始まり
+    //creative: "",        // インドアの分岐始まり
+    bunki1: ""          //分岐質問1
 
 
   });
@@ -579,8 +586,62 @@ alert("フィルタリング画面に遷移します。");
               体を動かす事が多い仕事をしたいですか？
               </Text>
               <RadioGroup
-                onChange={(value) => handleChange("bodymoving", value)}
+                onChange={(value) => {
+                  handleChange("bodymoving", value);
+                  // 「はい」か「いいえ」によって次の質問を表示
+                  if (value === "はい") {
+                    setOutdoor(1);  // 「屋外での作業が多い仕事に興味はありますか？」へ
+                    setIndoor(0);    // クリエイティブな仕事の質問を非表示に
+                    <Output outdoor={outdoor} indoor={indoor} />    //outputファイルに変数を渡す
+                  } else if (value === "いいえ") {
+                    setOutdoor(0);  // 屋外作業の質問を非表示に
+                    setIndoor(1);   // 「クリエイティブな仕事に興味はありますか？」へ
+                    <Output outdoor={outdoor} indoor={indoor} />    //outputファイルに変数を渡す
+                  }
+                }}
                 value={answers.bodymoving}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 22 && outdoor === 1 && (   //分岐先その1
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              屋外での作業が多い仕事に興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("bunki1", value)}
+                value={answers.bunki1}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 22 && indoor === 1 && (   //分岐先その2
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              クリエイティブな仕事（デザインやコンテンツ制作など）に興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("bunki1", value)}
+                value={answers.bunki1}
               >
                 <Stack direction="row" spacing={5}>
                   <Radio value="はい" colorScheme="teal">
@@ -630,7 +691,9 @@ alert("フィルタリング画面に遷移します。");
                   (step === 18 && answers.English === "") ||
                   (step === 19 && answers.team === "") ||
                   (step === 20 && answers.leadership === "")||
-                  (step === 21 && answers.bodymoving === "")
+                  (step === 21 && answers.bodymoving === "")||
+                  (step === 22 && answers.bunki1 === "")
+
                 }
               >
                 次へ
@@ -661,7 +724,9 @@ alert("フィルタリング画面に遷移します。");
                   !answers.English ||
                   !answers.team ||
                   !answers.leadership ||
-                  !answers.bodymoving
+                  !answers.bodymoving ||
+                  !answers.bunki1
+
                 }
                 leftIcon={<CheckCircleIcon />}
               >
@@ -681,6 +746,8 @@ const AppWrapper = () => (
     <Route path="/" element={<App />} />
     <Route path="/output" element={<Output />} />
     <Route path="/filtering" element={<Filtering />} />
+    <Route path="/Outdoor" element={<Outdoor />} />
+    <Route path="/Indoor" element={<Indoor />} />
     
   </Routes>
 );
