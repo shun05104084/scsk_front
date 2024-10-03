@@ -17,7 +17,7 @@ const Output = () => {
   const { outdoor, indoor, step, remoteWork, industry, salary, newYearHoliday, communication, office, teamwork, PC, known, transfer, income, home, flex, overtime, weekend, longvacation, workingplace, English, team, leadership, bodymoving, bunki1 } = location.state || {};
 
   // リモートワークのメッセージとスタイル設定
-  const remoteWorkMessage = remoteWork === "はい"
+  const remoteWorkMessage = remoteWork === "あり"
     ? { message: "リモートワークを積極的に利用したいです", icon: CheckCircleIcon, color: "green.500" }
     : { message: "リモートワークを積極的に利用したくないです", icon: WarningIcon, color: "red.500" };
 

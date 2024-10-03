@@ -33,7 +33,7 @@ const Filtering = () => {
         header: true, // 1行目をヘッダーとして使用
         complete: (results) => {
           setData(results.data); // CSVデータをステートに格納
-          //console.log(results.data);
+          console.log(results.data);
         },
       });
     };
@@ -55,10 +55,8 @@ const Filtering = () => {
     const filterData = () => {
       return data.filter((row) => {
         return (
-          ((answers.remoteWork === "" || row["リモートワーク"] === answers.remoteWork) && 
-            (answers.industry === "" || row["業界"] === answers.industry) &&
-            ( answers.place === "" || row["勤務地"] === answers.place) && 
-            (answers.salary === "" || row["平均年収"] === answers.salary))
+          //console.log(results.data),
+          ((answers.remoteWork === "" || row["リモートワーク"] === answers.remoteWork) )
         );
       });
     };
@@ -139,27 +137,29 @@ const Filtering = () => {
           borderColor="gray.200"
         >
           <VStack spacing={6} align="center">
-            <h1>あなたにマッチする会社</h1>
-                  <ul>
-                    {/* {filterData.map((row, index) => (
-                      <li key={index}>{row["企業名"]}</li>
-                    ))} */}
-                    { filteredCompanyNames.map((name, index) => (
-                      <li key={index}>{name}</li>
-                    )) }
-
-                  </ul>
-                  {/* 戻るボタン */}
-                  <Button
-              colorScheme="teal"
-              size="lg"
-              onClick={() => navigate("/output")}
-              mt={6}
-              _hover={{ bg: "teal.400", transform: "scale(1.05)" }}
-              transition="all 0.3s ease"
-            >
-              戻る
-            </Button>
+          <h1>あなたにマッチする会社</h1>
+          <ul>
+            {filteredCompanyNames.length > 0 ? (
+              console.log(filteredCompanyNames.length),
+              filteredCompanyNames.map((name, index) => (
+                <li key={index}>{name}</li>
+              ))
+            ) : (
+              console.log(filteredCompanyNames.length),
+              <li>条件に合う会社が見つかりませんでした。</li>
+            )}
+          </ul>
+          {/* 戻るボタン */}
+          <Button
+            colorScheme="teal"
+            size="lg"
+            onClick={() => navigate("/output")}
+            mt={6}
+            _hover={{ bg: "teal.400", transform: "scale(1.05)" }}
+            transition="all 0.3s ease"
+          >
+            戻る
+          </Button>
 
           </VStack>
           <VStack spacing={6} align="center">
