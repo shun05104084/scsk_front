@@ -10,13 +10,28 @@ const App = () => {
   const toast = useToast();
 
   const [step, setStep] = useState(1);
-  const totalSteps = 4;
+  const totalSteps = 17;
 
   const [answers, setAnswers] = useState({
     remoteWork: "",
     industry: "",
     salary: "",
     newYearHoliday: "",
+    comunication: "",
+    office: "",
+    teamwork: "",
+    PC: "",
+    known: "",
+    transfer: "",
+    income: "",
+    home: "",
+    flex: "",
+    overtime: "",
+    weekend: "",
+    longvacation: "",
+    workingplace: ""
+
+
   });
 
   const handleChange = (field, value) => {
@@ -181,6 +196,300 @@ const App = () => {
             </Box>
           )}
 
+          {step === 5 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              人とのコミュニケーションは得意ですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("comunication", value)}
+                value={answers.comunication}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 6 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              同じオフィスで毎日働くことに抵抗はありますか？？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("office", value)}
+                value={answers.office}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 7 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              チームワークは得意ですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("teamwork", value)}
+                value={answers.teamwork}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 8 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              PCを使った作業は得意ですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("PC", value)}
+                value={answers.PC}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 9 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              知名度の高い企業で働きたいですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("known", value)}
+                value={answers.known}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                  <Radio value="どちらでもいい" colorScheme="teal">
+                  どちらでもいい
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 10 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              将来転職を考えていますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("transfer", value)}
+                value={answers.transfer}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 11 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              希望の平均年収はいくらですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("income", value)}
+                value={answers.income}
+              >
+                <Stack direction="column" spacing={4}>
+                  <Radio value="500万円未満" colorScheme="teal">
+                    500万円未満
+                  </Radio>
+                  <Radio value="500～600万円" colorScheme="teal">
+                    500～600万円
+                  </Radio>
+                  <Radio value="600～700万円" colorScheme="teal">
+                  600～700万円
+                  </Radio>
+                  <Radio value="700～800万円" colorScheme="teal">
+                  700～800万円
+                  </Radio>
+                  <Radio value="800万円以上" colorScheme="teal">
+                  800万円以上
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 12 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              就職後は実家と一人暮らし、どちらを想定していますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("home", value)}
+                value={answers.home}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="実家" colorScheme="teal">
+                    実家
+                  </Radio>
+                  <Radio value="一人暮らし" colorScheme="teal">
+                    一人暮らし
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 13 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              フレックスタイム制度を積極的に利用したいですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("flex", value)}
+                value={answers.flex}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 14 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              9時に出社したとして、遅くとも何時までには退勤したいですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("overtime", value)}
+                value={answers.overtime}
+              >
+                <Stack direction="column" spacing={4}>
+                  <Radio value="17時(定時)" colorScheme="teal">
+                  17時(定時)
+                  </Radio>
+                  <Radio value="17時～18時" colorScheme="teal">
+                  17時～18時
+                  </Radio>
+                  <Radio value="18時～19時" colorScheme="teal">
+                  18時～19時
+                  </Radio>
+                  <Radio value="19時～20時" colorScheme="teal">
+                  19時～20時
+                  </Radio>
+                  <Radio value="20時以降" colorScheme="teal">
+                  20時以降
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 15 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              土日は必ず休みたいですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("weekend", value)}
+                value={answers.weekend}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 16 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              長期休暇(7日以上)は必ず欲しいですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("longvacation", value)}
+                value={answers.longvacation}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 17 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              希望の勤務地はありますか？
+              </Text>
+              <Select
+                placeholder="希望の勤務地を選択してください"
+                value={answers.workingplace}
+                onChange={(e) => handleChange("workingplace", e.target.value)}
+                size="lg"
+                bg="gray.50"
+              >
+                <option value="北海道">北海道</option>
+                <option value="東京">東京</option>
+                <option value="大阪">大阪</option>
+                <option value="海外">海外</option>
+                <option value="どこでもよい">どこでもよい</option>
+              </Select>
+            </Box>
+          )}
+
           {/* ナビゲーションボタン */}
           <Stack direction="row" spacing={4} justify="space-between">
             {step > 1 && (
@@ -200,7 +509,20 @@ const App = () => {
                   (step === 1 && answers.remoteWork === "") ||
                   (step === 2 && answers.industry === "") ||
                   (step === 3 && answers.salary === "") ||
-                  (step === 4 && answers.newYearHoliday === "")
+                  (step === 4 && answers.newYearHoliday === "")||
+                  (step === 5 && answers.comunication === "") ||
+                  (step === 6 && answers.office === "") ||
+                  (step === 7 && answers.teamwork === "") ||
+                  (step === 8 && answers.PC === "")||
+                  (step === 9 && answers.known === "") ||
+                  (step === 10 && answers.transfer === "") ||
+                  (step === 11 && answers.income === "") ||
+                  (step === 12 && answers.home === "")||
+                  (step === 13 && answers.flex === "") ||
+                  (step === 14 && answers.overtime === "") ||
+                  (step === 15 && answers.weekend === "") ||
+                  (step === 16 && answers.longvacation === "")||
+                  (step === 17 && answers.workingplace === "")
                 }
               >
                 次へ
@@ -214,7 +536,20 @@ const App = () => {
                   !answers.remoteWork ||
                   !answers.industry ||
                   !answers.salary ||
-                  !answers.newYearHoliday
+                  !answers.newYearHoliday ||
+                  !answers.comunication ||
+                  !answers.office ||
+                  !answers.teamwork ||
+                  !answers.PC ||
+                  !answers.known ||
+                  !answers.transfer ||
+                  !answers.income ||
+                  !answers.home ||
+                  !answers.flex ||
+                  !answers.overtime ||
+                  !answers.weekend ||
+                  !answers.longvacation ||
+                  !answers.workingplace
                 }
                 leftIcon={<CheckCircleIcon />}
               >
