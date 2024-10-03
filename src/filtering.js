@@ -9,7 +9,8 @@ const Filtering = () => {
   const [responseOutput, setResponseOutput] = useState(''); // APIからの応答を保存する状態
 
   // キー設定
-  const apiKey = process.env.REACT_APP_API_KEY;
+  //const apiKey = process.env.REACT_APP_API_KEY;
+  const apiKey = 'APIKEY';
 
 
 
