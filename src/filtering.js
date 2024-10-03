@@ -7,30 +7,35 @@ import { useEffect, useState } from "react";
 import Papa from "papaparse";
 import App from "./App";
 
-const Filtering = ({ answers}) => {
-    const [csvData, setCsvData] = useState('');
-    const [data, setData] = useState([]);
+const Filtering = () => {
+  // 前の画面から渡された状態を取得
+  const location = useLocation();
+  // 前の画面の情報を代入する 
+  const answers = location.state || {};
+
+  const [csvData, setCsvData] = useState('');
+  const [data, setData] = useState([]);
   
-    useEffect(() => {
-      // CSVファイルを読み込む
-      const fetchData = async () => {
-        const response = await fetch("/companies.csv"); // public/A.csvを読み込み
-        const reader = response.body.getReader();
-        const result = await reader.read(); // rawデータを取得
-        const decoder = new TextDecoder("utf-8");
-        const csvData = decoder.decode(result.value); // CSVデータを文字列に変換
-  
-        // PapaParseでCSVをパース
-        Papa.parse(csvData, {
-          header: true, // 1行目をヘッダーとして使用
-          complete: (results) => {
-            setData(results.data); // CSVデータをステートに格納
-            console.log(results.data);
-          },
-        });
-      };
-      fetchData();
-    }, []);
+  useEffect(() => {
+    // CSVファイルを読み込む
+    const fetchData = async () => {
+      const response = await fetch("/companies.csv"); // public/A.csvを読み込み
+      const reader = response.body.getReader();
+      const result = await reader.read(); // rawデータを取得
+      const decoder = new TextDecoder("utf-8");
+      const csvData = decoder.decode(result.value); // CSVデータを文字列に変換
+
+      // PapaParseでCSVをパース
+      Papa.parse(csvData, {
+        header: true, // 1行目をヘッダーとして使用
+        complete: (results) => {
+          setData(results.data); // CSVデータをステートに格納
+          console.log(results.data);
+        },
+      });
+    };
+    fetchData();
+  }, []);
 
   
 
@@ -50,10 +55,10 @@ const Filtering = ({ answers}) => {
     const filterData = () => {
       return data.filter((row) => {
         return (
-          ("answers.remoteWork.value" === "" || row["リモートワーク"] === "answers.remoteWork.value" && 
-            "answers.industry.value" === "" || row["業界"] === "answers.industry.value" &&
-             "answers.place.value" === "" || row["勤務地"] === "answers.place.value" && 
-            "answers.salary.value" === "" || row["平均年収"] === "answers.salary.value")
+          ((answers.remoteWork === "" || row["リモートワーク"] === answers.remoteWork) && 
+            (answers.industry === "" || row["業界"] === answers.industry) &&
+            ( answers.place === "" || row["勤務地"] === answers.place) && 
+            (answers.salary === "" || row["平均年収"] === answers.salary))
 
           // (answers.remoteWork === "" || row["リモートワーク"] === answers.remoteWork) &&
           // (answers.industry === "" || row["業界"] === answers.industry) &&

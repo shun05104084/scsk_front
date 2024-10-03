@@ -14,16 +14,16 @@ const App = () => {
 
   const [answers, setAnswers] = useState({
     remoteWork: "",
-    industry: "IT",
+    industry: "",
     salary: "500万",
-    place: "東京",
+    place: "",
 
     // remoteWork: "",
     // industry: "",
     // salary: "",
     // newYearHoliday: "",
   });
-  answers.remoteWork = "あり";
+  // answers.remoteWork = "あり";
   console.log("Answer: ", answers.remoteWork);
 
   const handleChange = (field, value) => {
@@ -61,7 +61,7 @@ const App = () => {
   const handleFilterng = () => {
 alert("フィルタリング画面に遷移します。");
     
-    navigate("/filtering");
+    navigate("/filtering", { state: answers});
   };
 
   return (
