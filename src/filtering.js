@@ -67,7 +67,10 @@ const Filtering = () => {
 
 
    // デバッグ用: フィルタリング結果をコンソールに出力
-   console.log("Answer: ", answers.remoteWork);
+   console.log("remotework: ", answers.remoteWork);
+   console.log("industry: ", answers.industry);
+   console.log("salary: ", answers.salary);
+   console.log("newyearholiday: ", answers.newYearHoliday);
    console.log("Filtered Companies: ", filteredCompanyNames);
     
   // ページ遷移後の表示を作成
