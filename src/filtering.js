@@ -5,13 +5,15 @@ import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Papa from "papaparse";
-import App from "./App";
+import Output from "./output";
 
 const Filtering = () => {
   // 前の画面から渡された状態を取得
   const location = useLocation();
   // 前の画面の情報を代入する 
   const answers = location.state || {};
+  const navigate = useNavigate(); // 戻るボタン用
+
 
   const [csvData, setCsvData] = useState('');
   const [data, setData] = useState([]);
@@ -37,9 +39,6 @@ const Filtering = () => {
     fetchData();
   }, []);
 
-  
-
-
     // useEffect(() => {
     //   // CSVファイルをfetchで取得
     //   fetch('/companies.csv')
@@ -59,10 +58,6 @@ const Filtering = () => {
             (answers.industry === "" || row["業界"] === answers.industry) &&
             ( answers.place === "" || row["勤務地"] === answers.place) && 
             (answers.salary === "" || row["平均年収"] === answers.salary))
-
-          // (answers.remoteWork === "" || row["リモートワーク"] === answers.remoteWork) &&
-          // (answers.industry === "" || row["業界"] === answers.industry) &&
-          // (answers.salary === "" || row["平均年収"] === answers.salary)
         );
       });
     };
@@ -94,19 +89,27 @@ const Filtering = () => {
           borderColor="gray.200"
         >
           <VStack spacing={6} align="center">
- <p>こんにちわ</p>
- <h3>フィルタリングされた結果:</h3>
-      <ul>
-        {/* {filterData.map((row, index) => (
-          <li key={index}>{row["企業名"]}</li>
-        ))} */}
-        { filteredCompanyNames.map((name, index) => (
-          <li key={index}>{name}</li>
-        )) }
+            <h1>あなたにマッチする会社</h1>
+                  <ul>
+                    {/* {filterData.map((row, index) => (
+                      <li key={index}>{row["企業名"]}</li>
+                    ))} */}
+                    { filteredCompanyNames.map((name, index) => (
+                      <li key={index}>{name}</li>
+                    )) }
 
-      </ul>
-
-
+                  </ul>
+                  {/* 戻るボタン */}
+                  <Button
+              colorScheme="teal"
+              size="lg"
+              onClick={() => navigate("/output")}
+              mt={6}
+              _hover={{ bg: "teal.400", transform: "scale(1.05)" }}
+              transition="all 0.3s ease"
+            >
+              戻る
+            </Button>
 
           </VStack>
         </Box>

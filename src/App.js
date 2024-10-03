@@ -13,18 +13,19 @@ const App = () => {
   const totalSteps = 4;
 
   const [answers, setAnswers] = useState({
-    remoteWork: "",
-    industry: "",
-    salary: "500万",
-    place: "",
-
+    // デバック用
     // remoteWork: "",
     // industry: "",
-    // salary: "",
-    // newYearHoliday: "",
+    // salary: "500万",
+    // place: "",
+
+    remoteWork: "",
+    industry: "",
+    salary: "",
+    newYearHoliday: "",
   });
-  // answers.remoteWork = "あり";
-  console.log("Answer: ", answers.remoteWork);
+  // デバック用
+  // console.log("Answer: ", answers.remoteWork);
 
   const handleChange = (field, value) => {
     setAnswers((prev) => ({
@@ -58,11 +59,11 @@ const App = () => {
     navigate("/output", { state: answers });
   };
 
-  const handleFilterng = () => {
-alert("フィルタリング画面に遷移します。");
+//   const handleFilterng = () => {
+// alert("フィルタリング画面に遷移します。");
     
-    navigate("/filtering", { state: answers});
-  };
+//     navigate("/filtering", { state: answers});
+//   };
 
   return (
     <Box
@@ -87,7 +88,7 @@ alert("フィルタリング画面に遷移します。");
             <Icon as={CheckCircleIcon} w={10} h={10} color="teal.500" />
             <Heading as="h1" size="lg" color="teal.500">
               就職アンケート
-              <Button
+              {/* <Button
                 onClick={handleFilterng}
                 colorScheme="teal"
 
@@ -95,7 +96,7 @@ alert("フィルタリング画面に遷移します。");
               >
                 フィルターページ
               </Button>
-              <Filtering answers={setAnswers} /> {/* 値受け渡し*/}
+              <Filtering answers={setAnswers} /> 値受け渡し */}
             </Heading>
             <Progress
               value={(step / totalSteps) * 100}

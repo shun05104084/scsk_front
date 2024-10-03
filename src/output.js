@@ -4,12 +4,17 @@ import { Box, Button, Heading, VStack, Text, Icon, Flex, Divider } from "@chakra
 import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
 
+
 const Output = () => {
   const location = useLocation(); // 前の画面から渡された状態を取得
   const navigate = useNavigate(); // 戻るボタン用
 
   // location.state から渡されたデータを展開
   const { remoteWork, industry, salary, newYearHoliday } = location.state || {};
+  
+  // 解答送信用
+  // 12行目といい感じにマージしたい
+  const answers = location.state || {};
 
   // リモートワークのメッセージとスタイル設定
   const remoteWorkMessage = remoteWork === "はい"
@@ -21,6 +26,12 @@ const Output = () => {
     ? "年末年始休暇制度のある企業を希望します"
     : null; // 「いいえ」の場合は何も出力しない
 
+  const handleFilterng = () => {
+    // alert("フィルタリング画面に遷移します。");
+      navigate("/filtering", { state: answers});
+  };
+    
+      
   // ページ遷移後の表示を作成
   return (
     <Box minH="100vh" display="flex" alignItems="center" justifyContent="center" py={12} px={6} bgGradient="linear(to-r, teal.500, green.500)">
@@ -103,6 +114,19 @@ const Output = () => {
               transition="all 0.3s ease"
             >
               戻る
+            </Button>
+
+            {/* 企業推薦ボタン */}
+            <Button
+              colorScheme="teal"
+              size="lg"
+              onClick={handleFilterng}
+              mt={6}
+              _hover={{ bg: "teal.400", transform: "scale(1.05)" }}
+              transition="all 0.3s ease"
+            >
+              おすすめ企業
+
             </Button>
           </VStack>
         </Box>
