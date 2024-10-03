@@ -4,7 +4,7 @@ import {Box,Button,Heading,Radio,RadioGroup,Stack,VStack,Text,Select,Progress,us
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Output from "./output";
-
+import Filtering from "./filtering";
 const App = () => {
   const navigate = useNavigate();
   const toast = useToast();
@@ -66,6 +66,12 @@ const App = () => {
     navigate("/output", { state: answers });
   };
 
+  const handleFilterng = () => {
+alert("フィルタリング画面に遷移します。");
+    
+    navigate("/filtering");
+  };
+
   return (
     <Box
       minH="100vh"
@@ -89,6 +95,14 @@ const App = () => {
             <Icon as={CheckCircleIcon} w={10} h={10} color="teal.500" />
             <Heading as="h1" size="lg" color="teal.500">
               就職アンケート
+              <Button
+                onClick={handleFilterng}
+                colorScheme="teal"
+
+                leftIcon={<CheckCircleIcon />}
+              >
+                フィルターページ
+              </Button>
             </Heading>
             <Progress
               value={(step / totalSteps) * 100}
@@ -568,6 +582,8 @@ const AppWrapper = () => (
   <Routes>
     <Route path="/" element={<App />} />
     <Route path="/output" element={<Output />} />
+    <Route path="/filtering" element={<Filtering />} />
+    
   </Routes>
 );
 
