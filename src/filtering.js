@@ -7,8 +7,15 @@ import { useEffect, useState } from "react";
 import Papa from "papaparse";
 import Output from "./output";
 import * as csvConverter from './csvConverter';
-import * as dataVectorizer from './dataVectorizer';
+import { loadAndVectorizeCSV } from './dataVectorizer';
+import { PineconeClient } from "@pinecone-database/client";
 
+// Pineconeクライアントの初期化
+const pinecone = new PineconeClient();
+await pinecone.init({
+  apiKey: 'aeeaa225-3d2d-4eb3-b189-d1ab55041482', // PineconeのAPIキー
+  environment: 'us-west1-gcp' // 環境に合わせて指定
+});
 
 const Filtering = () => {
   // 前の画面から渡された状態を取得
@@ -16,35 +23,47 @@ const Filtering = () => {
   // 前の画面の情報を代入する 
   const answers = location.state || {};
   const navigate = useNavigate(); // 戻るボタン用
-
-
   const [csvData, setCsvData] = useState('');
   const [data, setData] = useState([]);
-  
-  useEffect(() => {
-    // CSVファイルを読み込む
-    const fetchData = async () => {
-      const response = await fetch("/companies.csv"); // csvを読み込み
-      const reader = response.body.getReader();
-      const result = await reader.read(); // rawデータを取得
-      const decoder = new TextDecoder("utf-8");
-      const csvData = decoder.decode(result.value); // CSVデータを文字列に変換
+  const [vectorizedData, setVectorizedData] = useState([]);
 
-      // PapaParseでCSVをパース
-      Papa.parse(csvData, {
-        header: true, // 1行目をヘッダーとして使用
-        complete: (results) => {
-          const salary_convertedData = csvConverter.convertSalaryInData(results.data); // 平均年収の変換
-          const convertedData = csvConverter.convertHourInData(salary_convertedData); // 残業時間の変換
-
-          setData(convertedData); // 変換後のデータをステートに格納
-          console.log(convertedData);
-
-          // setData(results.data); // CSVデータをステートに格納
-          // console.log(results.data);
-        },
+  // CSVファイルを読み込む
+  const fetchData = async () => {
+    try {
+      // CSVファイルを読み込む
+      const response = await fetch("/companies.csv");
+      const csvData = await response.text();
+    // const response = await fetch("/companies.csv"); // csvを読み込み
+    // const reader = response.body.getReader();
+    // const result = await reader.read(); // rawデータを取得
+    // const decoder = new TextDecoder("utf-8");
+    // const csvData = decoder.decode(result.value); // CSVデータを文字列に変換
+    // PapaParseでCSVをパース
+      const parsedData = await new Promise((resolve, reject) => {
+        Papa.parse(csvData, {
+          header: true, // 1行目をヘッダーとして使用
+          complete: (results) => { // results を受け取る
+            resolve(results.data); // results.data を返す
+          },          
+          error: (error) => reject(error),
+        });
       });
-    };
+
+      const salary_convertedData = csvConverter.convertSalaryInData(parsedData); // 平均年収の変換
+      const convertedData = csvConverter.convertHourInData(salary_convertedData); // 残業時間の変換
+      setData(convertedData); // 変換後のデータをステートに格納
+      // console.log(convertedData);
+
+      const vectors = await loadAndVectorizeCSV("/companies.csv"); // ベクトル化を適用
+      setVectorizedData(vectors);  // ベクトル化されたデータをセット
+
+      console.log("変換済みデータ:", convertedData);
+      console.log("ベクトル化されたデータ:", vectors);
+    } catch (error) {
+      console.error("データの取得中にエラーが発生しました:", error);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, []);
 
