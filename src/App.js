@@ -12,7 +12,7 @@ const App = () => {
   const toast = useToast();
 
   const [step, setStep] = useState(1);
-  const totalSteps = 22; 
+  const totalSteps = 27; 
 
   const [outdoor, setOutdoor] = useState(0);  // outdoor フラグ
   const [indoor, setIndoor] = useState(0);    // indoor フラグ
@@ -40,9 +40,12 @@ const App = () => {
     team: "",
     leadership: "",
     bodymoving: "",   //ここまでが分岐前
-    //outdoorworking: "", //アウトドアの分岐始まり
-    //creative: "",        // インドアの分岐始まり
-    bunki1: ""          //分岐質問1
+    client: "",
+    powerwork: "",
+    natural: "",
+    creative: "",
+    marketing: "",
+    administrative: ""
 
 
   });
@@ -588,16 +591,6 @@ alert("フィルタリング画面に遷移します。");
               <RadioGroup
                 onChange={(value) => {
                   handleChange("bodymoving", value);
-                  // 「はい」か「いいえ」によって次の質問を表示
-                  if (value === "はい") {
-                    setOutdoor(1);  // 「屋外での作業が多い仕事に興味はありますか？」へ
-                    setIndoor(0);    // クリエイティブな仕事の質問を非表示に
-                    <Output outdoor={outdoor} indoor={indoor} />    //outputファイルに変数を渡す
-                  } else if (value === "いいえ") {
-                    setOutdoor(0);  // 屋外作業の質問を非表示に
-                    setIndoor(1);   // 「クリエイティブな仕事に興味はありますか？」へ
-                    <Output outdoor={outdoor} indoor={indoor} />    //outputファイルに変数を渡す
-                  }
                 }}
                 value={answers.bodymoving}
               >
@@ -613,14 +606,16 @@ alert("フィルタリング画面に遷移します。");
             </Box>
           )}
 
-          {step === 22 && outdoor === 1 && (   //分岐先その1
+          {step === 22 && (
             <Box>
               <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
-              屋外での作業が多い仕事に興味はありますか？
+              顧客やクライアントとの対話を重視する仕事に興味はありますか？
               </Text>
               <RadioGroup
-                onChange={(value) => handleChange("bunki1", value)}
-                value={answers.bunki1}
+                onChange={(value) => {
+                  handleChange("client", value);
+                }}
+                value={answers.client}
               >
                 <Stack direction="row" spacing={5}>
                   <Radio value="はい" colorScheme="teal">
@@ -634,14 +629,108 @@ alert("フィルタリング画面に遷移します。");
             </Box>
           )}
 
-          {step === 22 && indoor === 1 && (   //分岐先その2
+          {step === 23 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              工事や建設現場など、力仕事が必要な業務に興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("powerwork", value);
+                }}
+                value={answers.powerwork}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 24 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              農業や漁業など、自然環境の中で体を動かす仕事に興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("natural", value);
+                }}
+                value={answers.natural}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 25 && (
             <Box>
               <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
               クリエイティブな仕事（デザインやコンテンツ制作など）に興味はありますか？
               </Text>
               <RadioGroup
-                onChange={(value) => handleChange("bunki1", value)}
-                value={answers.bunki1}
+                onChange={(value) => {
+                  handleChange("creative", value);
+                }}
+                value={answers.creative}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 26 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              マーケティングや広告に関わるデスクワークをしてみたいですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("marketing", value);
+                }}
+                value={answers.marketing}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 27 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              パソコンを使った事務作業（経理、書類作成など）が中心の仕事に興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("administrative", value);
+                }}
+                value={answers.administrative}
               >
                 <Stack direction="row" spacing={5}>
                   <Radio value="はい" colorScheme="teal">
@@ -692,7 +781,13 @@ alert("フィルタリング画面に遷移します。");
                   (step === 19 && answers.team === "") ||
                   (step === 20 && answers.leadership === "")||
                   (step === 21 && answers.bodymoving === "")||
-                  (step === 22 && answers.bunki1 === "")
+                  (step === 22 && answers.client === "")||
+                  (step === 23 && answers.powerwork === "")||
+                  (step === 24 && answers.natural === "")||
+                  (step === 25 && answers.creative === "")||
+                  (step === 26 && answers.marketing === "")||
+                  (step === 27 && answers.administrative === "")
+
 
                 }
               >
@@ -725,8 +820,12 @@ alert("フィルタリング画面に遷移します。");
                   !answers.team ||
                   !answers.leadership ||
                   !answers.bodymoving ||
-                  !answers.bunki1
-
+                  !answers.client ||
+                  !answers.powerwork ||
+                  !answers.natural ||
+                  !answers.creative ||
+                  !answers.marketing ||
+                  !answers.administrative
                 }
                 leftIcon={<CheckCircleIcon />}
               >

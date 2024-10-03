@@ -9,7 +9,8 @@ const Output = () => {
   const navigate = useNavigate(); // 戻るボタン用
 
   // location.state から渡されたデータを展開
-  const { outdoor, indoor, step, remoteWork, industry, salary, newYearHoliday, communication, office, teamwork, PC, known, transfer, income, home, flex, overtime, weekend, longvacation, workingplace, English, team, leadership, bodymoving, bunki1 } = location.state || {};
+  //const { outdoor, indoor } = location.state || {};
+  const { remoteWork, industry, salary, newYearHoliday, communication, office, teamwork, PC, known, transfer, income, home, flex, overtime, weekend, longvacation, workingplace, English, team, leadership, bodymoving, client, powerwork, natural, creative, marketing, administrative } = location.state || {};
 
   // リモートワークのメッセージとスタイル設定
   const remoteWorkMessage = remoteWork === "はい"
@@ -88,25 +89,41 @@ const Output = () => {
     ? { message: "リーダーとして活躍したい", icon: CheckCircleIcon, color: "green.500" }
     : { message: "リーダーとして活躍したくない", icon: WarningIcon, color: "red.500" };
 
-  // 肉体労働(ここで分岐)
+  // 肉体労働いいか(ここで分岐)
   const bodymovingMessage = bodymoving === "はい"
     ? { message: "体を動かす仕事をしたい", icon: CheckCircleIcon, color: "green.500" }
     : { message: "体を動かす仕事をしたくない", icon: WarningIcon, color: "red.500" };
 
-let bunki1Message = { message: "該当するメッセージがありません", icon: WarningIcon, color: "gray.500" };  // デフォルト値を設定
-  // アウトドア分岐
-  if(outdoor ===1){
-    bunki1Message = bunki1 === "はい"
-    ? { message: "屋外での作業を積極的にしてみたい", icon: CheckCircleIcon, color: "green.500" }
-    : { message: "屋外での作業はしたくない", icon: WarningIcon, color: "red.500" };
-  }else if(indoor === 1){
-    bunki1Message = bunki1 === "はい"
+  // 顧客関係の仕事
+  const clientMessage = client === "はい"
+    ? { message: "顧客やクライアントと積極的に関わる仕事をしてみたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "顧客やクライアントとはあまり積極的に関わりたくない", icon: WarningIcon, color: "red.500" };
+
+  // 肉体労働
+  const powerworkMessage = powerwork === "はい"
+    ? { message: "工事や建設現場などで力仕事をしてみたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "工事や建設現場などの力仕事はしたくない", icon: WarningIcon, color: "red.500" };
+
+  // 自然の中で働く
+  const naturalMessage = natural === "はい"
+    ? { message: "農業や漁業に関連した仕事をしてみたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "農業や漁業に関連した仕事はしたくない", icon: WarningIcon, color: "red.500" };
+
+  // クリエイティブ系
+  const creativeMessage = creative === "はい"
     ? { message: "クリエイティブな分野でアイデアを形にする仕事をしてみたい", icon: CheckCircleIcon, color: "green.500" }
     : { message: "デザインやコンテンツ制作などのクリエイティブな仕事にはあまり興味がない", icon: WarningIcon, color: "red.500" };
-  }
-  console.log("outdoor:", outdoor);
-  console.log("indoor:", indoor);
-  console.log("bunki1:", bunki1);
+
+  // マーケティング
+  const marketingMessage = marketing === "はい"
+    ? { message: "マーケティング戦略を立てたり、広告に関する仕事をしてみたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "マーケティングや広告のデスクワークには興味がない", icon: WarningIcon, color: "red.500" };
+
+  // 事務作業
+  const administrativeMessage = administrative === "はい"
+    ? { message: "パソコンを使った経理や書類作成などの事務作業をすることに興味がある", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "事務作業が中心の仕事にはあまり関心がない", icon: WarningIcon, color: "red.500" };
+
   // ページ遷移後の表示を作成
   return (
     <Box minH="100vh" display="flex" alignItems="center" justifyContent="center" py={12} px={6} bgGradient="linear(to-r, teal.500, green.500)">
@@ -317,11 +334,51 @@ let bunki1Message = { message: "該当するメッセージがありません", 
               </Text>
             </Flex>
 
-            {/* 分岐質問1に関する結果表示 */}
-            <Flex alignItems="center" justifyContent="center" color={bunki1Message.color}>
-              <Icon as={bunki1Message.icon} w={8} h={8} mr={2} />
+            {/* 顧客関連に関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={clientMessage.color}>
+              <Icon as={clientMessage.icon} w={8} h={8} mr={2} />
               <Text fontSize="lg" fontWeight="bold">
-                {bunki1Message.message}
+                {clientMessage.message}
+              </Text>
+            </Flex>
+
+            {/* 力仕事に関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={powerworkMessage.color}>
+              <Icon as={powerworkMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {powerworkMessage.message}
+              </Text>
+            </Flex>
+
+            {/* 自然仕事に関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={naturalMessage.color}>
+              <Icon as={naturalMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {naturalMessage.message}
+              </Text>
+            </Flex>
+
+            {/* クリエイティブに関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={creativeMessage.color}>
+              <Icon as={creativeMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {creativeMessage.message}
+              </Text>
+            </Flex>
+
+            {/* マーケティングに関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={marketingMessage.color}>
+              <Icon as={marketingMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {marketingMessage.message}
+              </Text>
+            </Flex>
+
+            {/* 事務作業に関する結果表示 */}
+            <Flex alignItems="center" justifyContent="center" color={administrativeMessage.color}>
+              <Icon as={administrativeMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {administrativeMessage.message}
               </Text>
             </Flex>
 
