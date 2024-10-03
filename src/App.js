@@ -14,10 +14,17 @@ const App = () => {
 
   const [answers, setAnswers] = useState({
     remoteWork: "",
-    industry: "",
-    salary: "",
-    newYearHoliday: "",
+    industry: "IT",
+    salary: "500万",
+    place: "東京",
+
+    // remoteWork: "",
+    // industry: "",
+    // salary: "",
+    // newYearHoliday: "",
   });
+  answers.remoteWork = "あり";
+  console.log("Answer: ", answers.remoteWork);
 
   const handleChange = (field, value) => {
     setAnswers((prev) => ({

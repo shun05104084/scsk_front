@@ -5,6 +5,7 @@ import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Papa from "papaparse";
+import App from "./App";
 
 const Filtering = ({ answers}) => {
     const [csvData, setCsvData] = useState('');
@@ -49,7 +50,10 @@ const Filtering = ({ answers}) => {
     const filterData = () => {
       return data.filter((row) => {
         return (
-          ("あり" === "" || row["リモートワーク"] === "あり" && "500万" === "" || row["平均年収"] === "500万" && "東京" === "" || row["勤務地"] === "東京" && "20時間" === "" || row["残業時間（月平均）"] === "20時間")
+          ("answers.remoteWork.value" === "" || row["リモートワーク"] === "answers.remoteWork.value" && 
+            "answers.industry.value" === "" || row["業界"] === "answers.industry.value" &&
+             "answers.place.value" === "" || row["勤務地"] === "answers.place.value" && 
+            "answers.salary.value" === "" || row["平均年収"] === "answers.salary.value")
 
           // (answers.remoteWork === "" || row["リモートワーク"] === answers.remoteWork) &&
           // (answers.industry === "" || row["業界"] === answers.industry) &&
@@ -63,6 +67,7 @@ const Filtering = ({ answers}) => {
 
 
    // デバッグ用: フィルタリング結果をコンソールに出力
+   console.log("Answer: ", answers.remoteWork);
    console.log("Filtered Companies: ", filteredCompanyNames);
     
   // ページ遷移後の表示を作成
