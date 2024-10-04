@@ -1,6 +1,6 @@
 // App.js
-import React, { useState } from "react";
-import {Box,Button,Heading,Radio,RadioGroup,Stack,VStack,Text,Select,Progress,useToast,Icon,} from "@chakra-ui/react";
+import React, { useState,useEffect  } from "react";
+import {Box,Button,Heading,Radio,RadioGroup,Stack,VStack,Text,Select,Progress,useToast,Icon,Input} from "@chakra-ui/react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Output from "./output";
@@ -18,6 +18,18 @@ const App = () => {
   const [indoor, setIndoor] = useState(0);    // indoor フラグ
   const bunki_question = 8; //分岐間での質問の数
 
+  //平均年収
+  const [foodExpense, setFoodExpense] = useState(0);
+  const [rentExpense, setRentExpense] = useState(0);
+  const [otherExpense, setOtherExpense] = useState(0);
+  useEffect(() => {
+    const totalExpense =
+      parseInt(foodExpense) + parseInt(rentExpense) + parseInt(otherExpense);
+    setAnswers((prev) => ({
+      ...prev,
+      salary: totalExpense,
+    }));
+  }, [foodExpense, rentExpense, otherExpense]);
   const [answers, setAnswers] = useState({
     remoteWork: "",
     industry: "",
@@ -40,6 +52,7 @@ const App = () => {
     team: "",
     leadership: "",
     bodymoving: "",   //ここまでが分岐前
+
     client: "",
     powerwork: "",
     natural: "",
@@ -55,6 +68,7 @@ const App = () => {
     sairyou: "",
     manual: "",
     juunan: "",
+
 
 
 
@@ -121,14 +135,6 @@ alert("フィルタリング画面に遷移します。");
             <Icon as={CheckCircleIcon} w={10} h={10} color="teal.500" />
             <Heading as="h1" size="lg" color="teal.500">
               就職アンケート
-              <Button
-                onClick={handleFilterng}
-                colorScheme="teal"
-
-                leftIcon={<CheckCircleIcon />}
-              >
-                フィルターページ
-              </Button>
             </Heading>
             <Progress
               value={(step / totalSteps) * 100}
@@ -153,10 +159,10 @@ alert("フィルタリング画面に遷移します。");
                 value={answers.remoteWork}
               >
                 <Stack direction="row" spacing={5}>
-                  <Radio value="あり" colorScheme="teal">
+                  <Radio value="はい" colorScheme="teal">
                     はい
                   </Radio>
-                  <Radio value="なし" colorScheme="teal">
+                  <Radio value="いいえ" colorScheme="teal">
                     いいえ
                   </Radio>
                 </Stack>
@@ -176,43 +182,57 @@ alert("フィルタリング画面に遷移します。");
                 size="lg"
                 bg="gray.50"
               >
-                <option value="IT業界">IT業界</option>
-                <option value="金融業界">金融業界</option>
-                <option value="医療業界">医療業界</option>
-                <option value="教育業界">教育業界</option>
-                <option value="その他">その他</option>
+                <option value="メーカー">メーカー</option>
+                <option value="サービス・インフラ">サービス・インフラ</option>
+                <option value="商社">商社</option>
+                <option value="ソフトウェア">ソフトウェア</option>
+                <option value="小売、広告・出版・マスコミ">小売、広告・出版・マスコミ</option>
+                <option value="金融">金融</option>
+                <option value="官公庁・公社・団体">官公庁・公社・団体</option>
+                <option value="特になし">特になし</option>
+
               </Select>
             </Box>
           )}
 
           {step === 3 && (
-            <Box>
-              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
-                希望の初任給はいくらですか？
-              </Text>
-              <RadioGroup
-                onChange={(value) => handleChange("salary", value)}
-                value={answers.salary}
-              >
-                <Stack direction="column" spacing={4}>
-                  <Radio value="15万円未満" colorScheme="teal">
-                    15万円未満
-                  </Radio>
-                  <Radio value="15～20万円" colorScheme="teal">
-                    15～20万円
-                  </Radio>
-                  <Radio value="20～25万円" colorScheme="teal">
-                    20～25万円
-                  </Radio>
-                  <Radio value="25～30万円" colorScheme="teal">
-                    25～30万円
-                  </Radio>
-                  <Radio value="30万円以上" colorScheme="teal">
-                    30万円以上
-                  </Radio>
-                </Stack>
-              </RadioGroup>
-            </Box>
+       <Box>
+       <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+         希望の平均年収を計算してみましょう
+       </Text>
+       <VStack spacing={4}>
+         <Box>
+           <Text>食費</Text>
+           <Input
+             type="number"
+             placeholder="食費を入力してください"
+             value={foodExpense}
+             onChange={(e) => setFoodExpense(e.target.value)}
+           />
+         </Box>
+         <Box>
+           <Text>家賃</Text>
+           <Input
+             type="number"
+             placeholder="家賃を入力してください"
+             value={rentExpense}
+             onChange={(e) => setRentExpense(e.target.value)}
+           />
+         </Box>
+         <Box>
+           <Text>その他の費用</Text>
+           <Input
+             type="number"
+             placeholder="その他の費用を入力してください"
+             value={otherExpense}
+             onChange={(e) => setOtherExpense(e.target.value)}
+           />
+         </Box>
+         <Text fontSize="lg" mt={4} fontWeight="bold" color="teal.600">
+           合計: {parseInt(foodExpense) + parseInt(rentExpense) + parseInt(otherExpense)} 円
+         </Text>
+       </VStack>
+     </Box>
           )}
 
           {step === 4 && (
@@ -323,21 +343,21 @@ alert("フィルタリング画面に遷移します。");
           {step === 9 && (
             <Box>
               <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
-              知名度の高い企業で働きたいですか？
+              企業の知名度はどのくらいがいいですか？
               </Text>
               <RadioGroup
                 onChange={(value) => handleChange("known", value)}
                 value={answers.known}
               >
                 <Stack direction="row" spacing={5}>
-                  <Radio value="はい" colorScheme="teal">
-                    はい
+                  <Radio value="高" colorScheme="teal">
+                    高いほうが良い
                   </Radio>
-                  <Radio value="いいえ" colorScheme="teal">
-                    いいえ
+                  <Radio value="中" colorScheme="teal">
+                    どちらでもいい
                   </Radio>
-                  <Radio value="どちらでもいい" colorScheme="teal">
-                  どちらでもいい
+                  <Radio value="低" colorScheme="teal">
+                    低くてもいい
                   </Radio>
                 </Stack>
               </RadioGroup>
@@ -440,27 +460,27 @@ alert("フィルタリング画面に遷移します。");
           {step === 14 && (
             <Box>
               <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
-              9時に出社したとして、遅くとも何時までには退勤したいですか？
+              残業時間は毎月何時間が望ましいですか？
               </Text>
               <RadioGroup
                 onChange={(value) => handleChange("overtime", value)}
                 value={answers.overtime}
               >
                 <Stack direction="column" spacing={4}>
-                  <Radio value="17時(定時)" colorScheme="teal">
-                  17時(定時)
+                  <Radio value="10" colorScheme="teal">
+                  残業はほぼなし　定時に帰れる　10時間
                   </Radio>
-                  <Radio value="17時～18時" colorScheme="teal">
-                  17時～18時
+                  <Radio value="20" colorScheme="teal">
+                  毎日1時間ほどの残業あり　20時間
                   </Radio>
-                  <Radio value="18時～19時" colorScheme="teal">
-                  18時～19時
+                  <Radio value="30" colorScheme="teal">
+                  会社から帰るの8時前　30時間
                   </Radio>
-                  <Radio value="19時～20時" colorScheme="teal">
-                  19時～20時
+                  <Radio value="40" colorScheme="teal">
+                  たまに土曜日も出勤するかも　40時間
                   </Radio>
-                  <Radio value="20時以降" colorScheme="teal">
-                  20時以降
+                  <Radio value="50" colorScheme="teal">
+                  土曜日も出勤　50時間
                   </Radio>
                 </Stack>
               </RadioGroup>
@@ -524,6 +544,7 @@ alert("フィルタリング画面に遷移します。");
                 <option value="北海道">北海道</option>
                 <option value="東京">東京</option>
                 <option value="大阪">大阪</option>
+                <option value="福岡">福岡</option>
                 <option value="海外">海外</option>
                 <option value="どこでもよい">どこでもよい</option>
               </Select>

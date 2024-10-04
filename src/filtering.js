@@ -56,7 +56,12 @@ const Filtering = () => {
       return data.filter((row) => {
         return (
           //console.log(results.data),
-          ((answers.remoteWork === "" || row["リモートワーク"] === answers.remoteWork) )
+          ((answers.remoteWork === "" || row["リモートワーク"] === answers.remoteWork) )&&
+          ((answers.industry === "" || row["業種"] === answers.industry) )&&
+          ((answers.salary === "" || row["知名度"] === answers.salary) )&&
+          ((answers.newYearHoliday === "" || row["フレックス制度"] === answers.newYearHoliday) )&&
+          ((answers.newYearHoliday === "" || row["フレックス制度"] === answers.newYearHoliday) )&&
+          ((answers.newYearHoliday === "" || row["フレックス制度"] === answers.newYearHoliday) )
         );
       });
     };

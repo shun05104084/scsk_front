@@ -1,4 +1,4 @@
-import React from "react";
+import {React,useState} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box, Button, Heading, VStack, Text, Icon, Flex, Divider } from "@chakra-ui/react";
 import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
@@ -7,18 +7,84 @@ import { motion, transform } from "framer-motion";
 const Output = () => {
   const location = useLocation(); // 前の画面から渡された状態を取得
   const navigate = useNavigate(); // 戻るボタン用
-  const answers = location.state || {};
+  const initialAnswers = location.state || {};
+
+  const [answers, setAnswers] = useState(initialAnswers);
+  const [userInput, setUserInput] = useState('');
+  const [responseOutput, setResponseOutput] = useState('');
   const handleFilterng = () => {
     // alert("フィルタリング画面に遷移します。");
       navigate("/filtering", { state: answers});
   };
+  const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+  const callChatGPT = async (prompt) => {
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: "gpt-4",  // Use the GPT model you want
+          messages: [
+            { role: "system", content: "You are a helpful assistant." },
+            { role: "user", content: prompt }
+          ],
+          max_tokens: 150,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      return data.choices[0]?.message.content || 'No response from ChatGPT';
+    } catch (error) {
+      console.error('Error fetching data from OpenAI API:', error);
+      throw new Error('Failed to fetch ChatGPT response');
+    }
+  };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // フォームのデフォルト送信動作を防止
+    setResponseOutput('応答を待っています...'); // 応答待ちのメッセージ
+
+    const personalityPrompt = `
+      ${answers.syahuu}
+      以下の性格特性のうち、2つを選んでください：
+      外向型・自問型
+      論理重視・想い重視
+      共感型・主観型
+      協調型・競争型
+      冷静型・情熱型
+      楽観型・慎重型
+      自己評価・他己評価
+      理念重視・ビジネス重視
+      過程重視・結果重視
+      専門追求型・組織貢献型
+      着実志向・挑戦志向
+      仕事重視・プライベート重視
+      給与重視・仕事内容重視
+      私仕混同・私仕分離
+      解答は各単語のみでお願いします。`;
+
+    try {
+      const response = await callChatGPT(personalityPrompt); // ChatGPTからの応答
+      setResponseOutput(response); // 応答を表示
+      setAnswers(prev => ({ ...prev, syahuu: response })); // answers.syahuuを更新
+    } catch (error) {
+      console.error('Error:', error);
+      setResponseOutput('エラーが発生しました。'); // エラーメッセージを設定
+    }
+  };
   // location.state から渡されたデータを展開
   //const { outdoor, indoor } = location.state || {};
   const { remoteWork, industry, salary, newYearHoliday, communication, office, teamwork, PC, known, transfer, income, home, flex, overtime, weekend, longvacation, workingplace, English, team, leadership, bodymoving, client, powerwork, natural, creative, marketing, administrative, individual, kansyou, nomi, result, career, contribution, sairyou, manual, juunan } = location.state || {};
 
   // リモートワークのメッセージとスタイル設定
-  const remoteWorkMessage = remoteWork === "あり"
+  const remoteWorkMessage = remoteWork === "はい"
     ? { message: "リモートワークを積極的に利用したいです", icon: CheckCircleIcon, color: "green.500" }
     : { message: "リモートワークを積極的に利用したくないです", icon: WarningIcon, color: "red.500" };
 
@@ -526,6 +592,16 @@ const Output = () => {
             >
               おすすめ企業
 
+            </Button>
+            <Button
+              colorScheme="teal"
+              size="lg"
+              onClick={handleSubmit}
+              mt={6}
+              _hover={{ bg: "teal.400", transform: "scale(1.05)" }}
+              transition="all 0.3s ease"
+            >
+              ChatGPTへ送信
             </Button>
           </VStack>
         </Box>
