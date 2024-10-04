@@ -54,14 +54,29 @@ const Filtering = () => {
     // フィルタリング関数
     const filterData = () => {
       return data.filter((row) => {
+        const overtime = row["残業時間（月平均）"] ? row["残業時間（月平均）"].replace("時間", "") : "0"; // Add a fallback value
+        const salary = row["平均年収"] ? row["平均年収"].replace("万", "") : "0"; // Ensure the salary exists
+    
+        console.log(parseInt(overtime));
+        if (answers.remoteWork === "いいえ" || answers.remoteWork === "" || row["リモートワーク"] === answers.remoteWork) {
+          console.log("リモート");
+        }
+        if (answers.industry === "特になし" || answers.industry === "" || row["業界"] === answers.industry) {
+          console.log("業界");
+        }
+        if (answers.flex === "" || row["フレックス制度"] === answers.flex) {
+          console.log("業界");
+        }
         return (
-          //console.log(results.data),
-          ((answers.remoteWork === "" || row["リモートワーク"] === answers.remoteWork) )&&
-          ((answers.industry === "" || row["業種"] === answers.industry) )&&
-          ((answers.salary === "" || row["知名度"] === answers.salary) )&&
-          ((answers.newYearHoliday === "" || row["フレックス制度"] === answers.newYearHoliday) )&&
-          ((answers.newYearHoliday === "" || row["フレックス制度"] === answers.newYearHoliday) )&&
-          ((answers.newYearHoliday === "" || row["フレックス制度"] === answers.newYearHoliday) )
+          (answers.remoteWork === "なし" || answers.remoteWork === "" || row["リモートワーク"] === answers.remoteWork)  &&
+          (answers.industry === "特になし" || answers.industry === "" || row["業界"] === answers.industry)  &&
+          (answers.salary === "" || parseInt(answers.salary) <= parseInt(salary) * 10000)   &&
+          (answers.flex === "" || row["フレックス制度"] === answers.flex)  &&
+          (answers.workingplace === "" || row["勤務地"] === answers.workingplace) &&
+          (answers.newYearHoliday === "なし" || row["長期休暇"] === answers.newYearHoliday)   &&
+          (answers.known === "" || row["知名度"] === answers.known)  &&
+          (answers.overtime === "" || parseInt(answers.overtime) <= parseInt(overtime))  //&&
+          //(answers.weekend === "なし" || answers.weekend === "" || row["weekend"] === answers.overtime)
         );
       });
     };
@@ -168,7 +183,7 @@ const Filtering = () => {
 
           </VStack>
           <VStack spacing={6} align="center">
-            <Text fontSize="xl">こんにちわ</Text>
+            <Text fontSize="xl">このなかからあなたに合う企業を探す</Text>
             <form onSubmit={handleSubmit}>
               <Input
                 placeholder="質問を入力してください"
