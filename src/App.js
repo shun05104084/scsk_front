@@ -106,11 +106,7 @@ const App = () => {
     navigate("/output", { state: answers });
   };
 
-  const handleFilterng = () => {
-alert("フィルタリング画面に遷移します。");
-    
-    navigate("/filtering");
-  };
+
 
   return (
     <Box
@@ -159,7 +155,7 @@ alert("フィルタリング画面に遷移します。");
                 value={answers.remoteWork}
               >
                 <Stack direction="row" spacing={5}>
-                  <Radio value="はい" colorScheme="teal">
+                  <Radio value="あり" colorScheme="teal">
                     はい
                   </Radio>
                   <Radio value="いいえ" colorScheme="teal">
@@ -245,7 +241,7 @@ alert("フィルタリング画面に遷移します。");
                 value={answers.newYearHoliday}
               >
                 <Stack direction="row" spacing={5}>
-                  <Radio value="はい" colorScheme="teal">
+                  <Radio value="あり" colorScheme="teal">
                     はい
                   </Radio>
                   <Radio value="いいえ" colorScheme="teal">
@@ -446,7 +442,7 @@ alert("フィルタリング画面に遷移します。");
                 value={answers.flex}
               >
                 <Stack direction="row" spacing={5}>
-                  <Radio value="はい" colorScheme="teal">
+                  <Radio value="あり" colorScheme="teal">
                     はい
                   </Radio>
                   <Radio value="いいえ" colorScheme="teal">
@@ -497,7 +493,7 @@ alert("フィルタリング画面に遷移します。");
                 value={answers.weekend}
               >
                 <Stack direction="row" spacing={5}>
-                  <Radio value="はい" colorScheme="teal">
+                  <Radio value="あり" colorScheme="teal">
                     はい
                   </Radio>
                   <Radio value="いいえ" colorScheme="teal">
@@ -518,7 +514,7 @@ alert("フィルタリング画面に遷移します。");
                 value={answers.longvacation}
               >
                 <Stack direction="row" spacing={5}>
-                  <Radio value="はい" colorScheme="teal">
+                  <Radio value="あり" colorScheme="teal">
                     はい
                   </Radio>
                   <Radio value="いいえ" colorScheme="teal">
