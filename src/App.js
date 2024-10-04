@@ -5,12 +5,18 @@ import { CheckCircleIcon } from "@chakra-ui/icons";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Output from "./output";
 import Filtering from "./filtering";
+import Outdoor from "./outdoor";
+import Indoor from "./indoor";
 const App = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
   const [step, setStep] = useState(1);
-  const totalSteps = 17;
+  const totalSteps = 36; 
+
+  const [outdoor, setOutdoor] = useState(0);  // outdoor フラグ
+  const [indoor, setIndoor] = useState(0);    // indoor フラグ
+  const bunki_question = 8; //分岐間での質問の数
 
   const [answers, setAnswers] = useState({
     remoteWork: "",
@@ -29,7 +35,27 @@ const App = () => {
     overtime: "",
     weekend: "",
     longvacation: "",
-    workingplace: ""
+    workingplace: "",
+    English: "",
+    team: "",
+    leadership: "",
+    bodymoving: "",   //ここまでが分岐前
+    client: "",
+    powerwork: "",
+    natural: "",
+    creative: "",
+    marketing: "",
+    administrative: "",   //性格診断の手前
+    individual: "",
+    kansyou: "",
+    nomi: "",
+    result: "",
+    career: "",
+    contribution: "",
+    sairyou: "",
+    manual: "",
+    juunan: "",
+
 
 
   });
@@ -127,10 +153,10 @@ alert("フィルタリング画面に遷移します。");
                 value={answers.remoteWork}
               >
                 <Stack direction="row" spacing={5}>
-                  <Radio value="はい" colorScheme="teal">
+                  <Radio value="あり" colorScheme="teal">
                     はい
                   </Radio>
-                  <Radio value="いいえ" colorScheme="teal">
+                  <Radio value="なし" colorScheme="teal">
                     いいえ
                   </Radio>
                 </Stack>
@@ -504,6 +530,438 @@ alert("フィルタリング画面に遷移します。");
             </Box>
           )}
 
+          {step === 18 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              英語などの外国語を積極的に使う仕事に興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("English", value)}
+                value={answers.English}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 19 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              チームで働くことが好きですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("team", value)}
+                value={answers.team}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 20 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              リーダーシップを発揮するポジションに興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => handleChange("leadership", value)}
+                value={answers.leadership}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 21 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              体を動かす事が多い仕事をしたいですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("bodymoving", value);
+                }}
+                value={answers.bodymoving}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 22 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              顧客やクライアントとの対話を重視する仕事に興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("client", value);
+                }}
+                value={answers.client}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 23 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              工事や建設現場など、力仕事が必要な業務に興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("powerwork", value);
+                }}
+                value={answers.powerwork}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 24 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              農業や漁業など、自然環境の中で体を動かす仕事に興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("natural", value);
+                }}
+                value={answers.natural}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 25 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              クリエイティブな仕事（デザインやコンテンツ制作など）に興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("creative", value);
+                }}
+                value={answers.creative}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 26 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              マーケティングや広告に関わるデスクワークをしてみたいですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("marketing", value);
+                }}
+                value={answers.marketing}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 27 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              パソコンを使った事務作業（経理、書類作成など）が中心の仕事に興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("administrative", value);
+                }}
+                value={answers.administrative}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 28 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              職場では、個々が自立して働く環境がいいと思いますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("individual", value);
+                }}
+                value={answers.individual}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 29 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              社内の人間関係は、仕事に集中できるよう干渉が少ない方がいいですか？
+
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("kansyou", value);
+                }}
+                value={answers.kansyou}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 30 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              仕事終わりに同僚と飲みに行ったり、社内イベントに参加したりすることに興味はありますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("nomi", value);
+                }}
+                value={answers.nomi}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 31 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              成果や結果が明確に評価される環境で働きたいですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("result", value);
+                }}
+                value={answers.result}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 32 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              キャリアの成長は、安定した環境でじっくりと進めたいと思いますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("career", value);
+                }}
+                value={answers.career}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 33 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              成果よりも、会社への長期的な貢献が評価される企業で働きたいですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("contribution", value);
+                }}
+                value={answers.contribution}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 34 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              自分の裁量で仕事を進める自由がある職場を望みますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("sairyou", value);
+                }}
+                value={answers.sairyou}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 35 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              指示やマニュアルに従い、計画的に進める環境が自分に合っていると思いますか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("manual", value);
+                }}
+                value={answers.manual}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
+          {step === 36 && (
+            <Box>
+              <Text fontSize="lg" mb={4} fontWeight="bold" color="teal.600">
+              柔軟にタスクが変わる環境や臨機応変な対応を求められる仕事が好きですか？
+              </Text>
+              <RadioGroup
+                onChange={(value) => {
+                  handleChange("juunan", value);
+                }}
+                value={answers.juunan}
+              >
+                <Stack direction="row" spacing={5}>
+                  <Radio value="はい" colorScheme="teal">
+                    はい
+                  </Radio>
+                  <Radio value="いいえ" colorScheme="teal">
+                    いいえ
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+          )}
+
           {/* ナビゲーションボタン */}
           <Stack direction="row" spacing={4} justify="space-between">
             {step > 1 && (
@@ -536,7 +994,28 @@ alert("フィルタリング画面に遷移します。");
                   (step === 14 && answers.overtime === "") ||
                   (step === 15 && answers.weekend === "") ||
                   (step === 16 && answers.longvacation === "")||
-                  (step === 17 && answers.workingplace === "")
+                  (step === 17 && answers.workingplace === "")||
+                  (step === 18 && answers.English === "") ||
+                  (step === 19 && answers.team === "") ||
+                  (step === 20 && answers.leadership === "")||
+                  (step === 21 && answers.bodymoving === "")||
+                  (step === 22 && answers.client === "")||
+                  (step === 23 && answers.powerwork === "")||
+                  (step === 24 && answers.natural === "")||
+                  (step === 25 && answers.creative === "")||
+                  (step === 26 && answers.marketing === "")||
+                  (step === 27 && answers.administrative === "")||
+                  (step === 28 && answers.individual === "")||
+                  (step === 29 && answers.kansyou === "")||
+                  (step === 30 && answers.nomi === "")||
+                  (step === 31 && answers.result === "")||
+                  (step === 32 && answers.career === "")||
+                  (step === 33 && answers.contribution === "")||
+                  (step === 34 && answers.sairyou === "")||
+                  (step === 35 && answers.manual === "")||
+                  (step === 36 && answers.juunan === "")
+
+
                 }
               >
                 次へ
@@ -563,7 +1042,26 @@ alert("フィルタリング画面に遷移します。");
                   !answers.overtime ||
                   !answers.weekend ||
                   !answers.longvacation ||
-                  !answers.workingplace
+                  !answers.workingplace ||
+                  !answers.English ||
+                  !answers.team ||
+                  !answers.leadership ||
+                  !answers.bodymoving ||
+                  !answers.client ||
+                  !answers.powerwork ||
+                  !answers.natural ||
+                  !answers.creative ||
+                  !answers.marketing ||
+                  !answers.administrative ||
+                  !answers.individual ||
+                  !answers.kansyou ||
+                  !answers.nomi ||
+                  !answers.result ||
+                  !answers.career ||
+                  !answers.contribution ||
+                  !answers.sairyou ||
+                  !answers.manual ||
+                  !answers.juunan
                 }
                 leftIcon={<CheckCircleIcon />}
               >
@@ -583,8 +1081,10 @@ const AppWrapper = () => (
     <Route path="/" element={<App />} />
     <Route path="/output" element={<Output />} />
     <Route path="/filtering" element={<Filtering />} />
+
     
   </Routes>
 );
-
+// <Route path="/Outdoor" element={<Outdoor />} />
+// <Route path="/Indoor" element={<Indoor />} />
 export default AppWrapper;
