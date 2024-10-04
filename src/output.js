@@ -17,6 +17,8 @@ const Output = () => {
       navigate("/filtering", { state: answers});
   };
   const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+  console.log(apiKey);
+  console.log('API KEY:',process.env.REACT_APP_OPENAI_API_KEY);
   const callChatGPT = async (prompt) => {
     try {
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -38,7 +40,7 @@ const Output = () => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+      console.log(response)
       const data = await response.json();
       return data.choices[0]?.message.content || 'No response from ChatGPT';
     } catch (error) {
@@ -47,38 +49,7 @@ const Output = () => {
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault(); // フォームのデフォルト送信動作を防止
-    setResponseOutput('応答を待っています...'); // 応答待ちのメッセージ
 
-    const personalityPrompt = `
-      ${answers.syahuu}
-      以下の性格特性のうち、2つを選んでください：
-      外向型・自問型
-      論理重視・想い重視
-      共感型・主観型
-      協調型・競争型
-      冷静型・情熱型
-      楽観型・慎重型
-      自己評価・他己評価
-      理念重視・ビジネス重視
-      過程重視・結果重視
-      専門追求型・組織貢献型
-      着実志向・挑戦志向
-      仕事重視・プライベート重視
-      給与重視・仕事内容重視
-      私仕混同・私仕分離
-      解答は各単語のみでお願いします。`;
-
-    try {
-      const response = await callChatGPT(personalityPrompt); // ChatGPTからの応答
-      setResponseOutput(response); // 応答を表示
-      setAnswers(prev => ({ ...prev, syahuu: response })); // answers.syahuuを更新
-    } catch (error) {
-      console.error('Error:', error);
-      setResponseOutput('エラーが発生しました。'); // エラーメッセージを設定
-    }
-  };
   // location.state から渡されたデータを展開
   //const { outdoor, indoor } = location.state || {};
   const { remoteWork, industry, salary, newYearHoliday, communication, office, teamwork, PC, known, transfer, income, home, flex, overtime, weekend, longvacation, workingplace, English, team, leadership, bodymoving, client, powerwork, natural, creative, marketing, administrative, individual, kansyou, nomi, result, career, contribution, sairyou, manual, juunan } = location.state || {};
@@ -240,6 +211,102 @@ const Output = () => {
     ? { message: "タスクが柔軟に変わる環境や、臨機応変な対応が求められる仕事を楽しみたい", icon: CheckCircleIcon, color: "green.500" }
     : { message: "安定した業務内容で計画的に進められる仕事が好ましい", icon: WarningIcon, color: "red.500" };
   
+
+const handleSubmit = async (event) => {
+  event.preventDefault(); // フォームのデフォルト送信動作を防止
+    // 個々が自立
+    const individualMessage = individual === "はい"
+    ? { message: "自分のペースで自立して働ける職場環境が好ましい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "チームとして協力し合いながら仕事を進める環境が良いと思う", icon: WarningIcon, color: "red.500" };
+
+  // 干渉されたくない
+  const kansyouMessage = kansyou === "はい"
+    ? { message: "社内での干渉が少なく、仕事に集中できる環境が理想的だと思う", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "適度にコミュニケーションが取れる環境が働きやすいと感じる", icon: WarningIcon, color: "red.500" };
+
+  // 飲み
+  const nomiMessage = nomi === "はい"
+    ? { message: "仕事後の飲み会や社内イベントを楽しみながら、同僚との関係を深めたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "プライベートな時間を大切にしたいので、仕事後の飲み会やイベントにはあまり参加したくない", icon: WarningIcon, color: "red.500" };
+
+  // 結果が評価される
+  const resultMessage = result === "はい"
+    ? { message: "自分の成果や結果が明確に評価される環境で働くことが理想的だと思う", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "評価よりも、仕事のプロセスやチームでの協力が重要だと感じる", icon: WarningIcon, color: "red.500" };
+
+  // キャリアの成長
+  const careerMessage = career === "はい"
+    ? { message: "安定した職場で、時間をかけて自分のキャリアを成長させたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "安定よりも、新しい挑戦や機会が多い環境でキャリアを進めたい", icon: WarningIcon, color: "red.500" };
+
+  // 貢献したい
+  const contributionMessage = contribution === "はい"
+    ? { message: "長期的な貢献が評価される企業で、安定して働き続けたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "会社への貢献よりも、短期的な成果や成果物が評価される環境で働きたい", icon: WarningIcon, color: "red.500" };
+
+  // 裁量
+  const sairyouMessage = sairyou === "はい"
+    ? { message: "自分の裁量で仕事を進められる自由な職場環境が理想的だと思う", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "決まった方針や指示のもとで仕事を進める環境が好ましい", icon: WarningIcon, color: "red.500" };
+
+  // マニュアルに基づく
+  const manualMessage = manual === "はい"
+    ? { message: "指示やマニュアルに従って、計画的に仕事を進める環境が自分に合っていると感じる", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "自分で工夫しながら進める自由な仕事の方が性に合っている", icon: WarningIcon, color: "red.500" };
+
+  // 柔軟に
+  const juunanMessage = juunan === "はい"
+    ? { message: "タスクが柔軟に変わる環境や、臨機応変な対応が求められる仕事を楽しみたい", icon: CheckCircleIcon, color: "green.500" }
+    : { message: "安定した業務内容で計画的に進められる仕事が好ましい", icon: WarningIcon, color: "red.500" };
+  
+  const syahuu = `
+  ${individualMessage.message}
+  ${kansyouMessage.message}
+  ${nomiMessage.message}
+  ${resultMessage.message}
+  ${careerMessage.message}
+  ${contributionMessage.message}
+  ${sairyouMessage.message}
+  ${manualMessage.message}
+  ${juunanMessage.message}
+`;
+console.log(syahuu)
+setAnswers((prev) => ({
+  ...prev,
+  syahuu: syahuu,
+}));
+
+setResponseOutput('応答を待っています...'); // 応答待ちのメッセージ
+  const personalityPrompt = `
+    ${answers.syahuu}
+    以下の性格特性のうち、1つを選んでください：
+    外向型・自問型
+    論理重視・想い重視
+    共感型・主観型
+    協調型・競争型
+    冷静型・情熱型
+    楽観型・慎重型
+    自己評価・他己評価
+    理念重視・ビジネス重視
+    過程重視・結果重視
+    専門追求型・組織貢献型
+    着実志向・挑戦志向
+    仕事重視・プライベート重視
+    給与重視・仕事内容重視
+    私仕混同・私仕分離
+    解答は各単語のみでお願いします。`;
+
+  try {
+    console.log(personalityPrompt)
+    const response = await callChatGPT(personalityPrompt); // ChatGPTからの応答
+    setResponseOutput(response); // 応答を表示
+    console.log(prompt);
+    setAnswers(prev => ({ ...prev, syahuu: response })); // answers.syahuuを更新
+  } catch (error) {
+    console.error('Error:', error);
+    setResponseOutput('エラーが発生しました。'); // エラーメッセージを設定
+  }
+};
     // ページ遷移後の表示を作成
   return (
     <Box minH="100vh" display="flex" alignItems="center" justifyContent="center" py={12} px={6} bgGradient="linear(to-r, teal.500, green.500)">
