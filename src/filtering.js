@@ -87,7 +87,19 @@ const Filtering = () => {
   
   
     // APIにPOSTリクエストを送信する関数
-    const callChatGPT = async (prompt) => {
+    const callChatGPT = async (filteredCompanies, userCulturePreference) => {
+      const prompt = `
+        以下の会社からユーザーの社風の好みに合う２社を選んでください。 
+        ユーザーの社風の好み: ${userCulturePreference}
+        ユーザーの希望: ${userInput}
+        会社のリスト:
+        ${filteredCompanies.map(company => 
+          `会社名: ${company["企業名"]}, 社風: ${company["社風"]}`
+        ).join("\n")}
+        
+        社風がユーザーの好みに合いそうな２つの会社を選んで、その理由を150文字程度で説明してください。
+      `;
+    
       try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
@@ -101,7 +113,7 @@ const Filtering = () => {
               { role: "system", content: "You are a helpful assistant." },
               { role: "user", content: prompt }
             ],
-            max_tokens: 150,
+            max_tokens: 200,
           }),
         });
     
@@ -117,19 +129,23 @@ const Filtering = () => {
       }
     };
     const handleSubmit = async (event) => {
-      event.preventDefault(); // フォームのデフォルト送信動作を防止
-      setResponseOutput('応答を待っています...'); // 応答待ちのメッセージ
+      event.preventDefault(); // Prevent form default submission behavior
+      setResponseOutput('応答を待っています...'); // Show waiting message
       try {
-        const response = await callChatGPT(userInput); // ChatGPTからの応答
-        setResponseOutput(response); // 応答を状態に保存
+        const filteredCompanies = filterData(); // Get the filtered companies
+        const response = await callChatGPT(filteredCompanies, answers.syahuu); // ChatGPT response with filtered companies and user preference
+        setResponseOutput(response); // Save the response in state
       } catch (error) {
         console.error('Error:', error);
-        setResponseOutput('エラーが発生しました。'); // エラーメッセージを設定
+        setResponseOutput('エラーが発生しました。'); // Show error message
       }
     };
-    // フィルタリングされたデータから企業名を抽出
-    const filteredCompanyNames = filterData().map((row) => row["企業名"]);
-
+    
+const filteredCompanies = filterData().map((row) => ({
+  companyName: row["企業名"],
+  industry: row["業界"],
+  averageSalary: row["平均年収"],
+}));
 
    // デバッグ用: フィルタリング結果をコンソールに出力
    console.log("remotework: ", answers.remoteWork);
@@ -156,37 +172,29 @@ const Filtering = () => {
           borderWidth="1px"
           borderColor="gray.200"
         >
-          <VStack spacing={6} align="center">
+<VStack spacing={6} align="center">
           <h1>あなたにマッチする会社</h1>
           <ul>
-            {filteredCompanyNames.length > 0 ? (
-              console.log(filteredCompanyNames.length),
-              filteredCompanyNames.map((name, index) => (
-                <li key={index}>{name}</li>
+            {filteredCompanies.length > 0 ? (
+              filteredCompanies.map((company, index) => (
+                <li key={index}>
+                  <strong>企業名:</strong> {company.companyName} <br />
+                  <strong>業界:</strong> {company.industry} <br />
+                  <strong>平均年収:</strong> {company.averageSalary}万円
+                </li>
               ))
             ) : (
-              console.log(filteredCompanyNames.length),
               <li>条件に合う会社が見つかりませんでした。</li>
             )}
           </ul>
-          {/* 戻るボタン */}
-          <Button
-            colorScheme="teal"
-            size="lg"
-            onClick={() => navigate("/output")}
-            mt={6}
-            _hover={{ bg: "teal.400", transform: "scale(1.05)" }}
-            transition="all 0.3s ease"
-          >
-            戻る
-          </Button>
+          <br></br> <br></br>
 
           </VStack>
           <VStack spacing={6} align="center">
             <Text fontSize="xl">このなかからあなたに合う企業を探す</Text>
             <form onSubmit={handleSubmit}>
               <Input
-                placeholder="質問を入力してください"
+                placeholder="どのような企業がいいですか？"
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
                 size="lg"
@@ -197,9 +205,20 @@ const Filtering = () => {
                 送信
               </Button>
             </form>
-            <Text fontSize="lg" fontWeight="bold">ChatGPTの応答:</Text>
+            <Text fontSize="lg" fontWeight="bold">ChatGPTのおすすめ企業:</Text>
             <Text>{responseOutput}</Text> {/* APIからの応答を表示 */}
           </VStack>
+                    {/* 戻るボタン */}
+                    <Button
+            colorScheme="teal"
+            size="lg"
+            onClick={() => navigate("/output")}
+            mt={6}
+            _hover={{ bg: "teal.400", transform: "scale(1.05)" }}
+            transition="all 0.3s ease"
+          >
+            はじめから
+          </Button>
         </Box>
       </motion.div>
     </Box>
