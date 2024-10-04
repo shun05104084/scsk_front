@@ -636,6 +636,13 @@ setResponseOutput('応答を待っています...'); // 応答待ちのメッセ
                 {juunanMessage.message}
               </Text>
             </Flex>
+              {/* 文字に関する結果表示 */}
+              <Flex alignItems="center" justifyContent="center" color={juunanMessage.color}>
+              <Icon as={juunanMessage.icon} w={8} h={8} mr={2} />
+              <Text fontSize="lg" fontWeight="bold">
+                {juunanMessage.message}
+              </Text>
+            </Flex>
 
             {/* 戻るボタン */}
             <Button
